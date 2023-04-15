@@ -16,6 +16,7 @@
   }
 }
 
+/* Resetting headers due to collision with tailwind */
 h1 { 
     display: block;
     font-size: 2em;
@@ -68,4 +69,9 @@ h6 {
     margin-left: 0;
     margin-right: 0;
     font-weight: bold;
+}
+
+blockquote, dl, dd, hr, figure, p, pre {
+    margin-top: 16px;
+    margin-bottom: 16px;
 }
