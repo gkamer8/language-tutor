@@ -4,7 +4,7 @@ A repo for an AI based foreign language tutor
 
 React + NEXT.js + Tailwind CSS
 
-Run by navigating to `frontend/app` and running `npm run dev`
+Run by navigating to `frontend/app` and running `npm run dev`. You'll need to do `npm install` the first time.
 
 ### Development Notes
 
