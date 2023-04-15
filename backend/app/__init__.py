@@ -2,6 +2,7 @@ import os
 
 from flask import Flask
 from .secret_keys import OPENAI_API_KEY
+from flask_cors import CORS
 
 
 def create_app(test_config=None):
@@ -11,6 +12,8 @@ def create_app(test_config=None):
         SECRET_KEY='dev',
         OPENAI_API_KEY=OPENAI_API_KEY
     )
+
+    cors = CORS(app)
 
     from . import completions
     app.register_blueprint(completions.bp)
