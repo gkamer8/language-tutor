@@ -1,1 +1,3 @@
 venv
+app/secret_keys.py
+*/__pycache__
