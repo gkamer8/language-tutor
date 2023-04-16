@@ -4,11 +4,16 @@ import config from '../../config/backend';
 import MarkdownViewer from '../../components/Markdown/viewer'
 import { Resizable } from 'react-resizable';
 import SplitPane, { Pane } from 'react-split-pane';
+import { useRouter } from 'next/router';
 
 
 const inter = Lora({ subsets: ['latin'] });
 
-export default function Home() {
+export default function Article() {
+
+    const router = useRouter();
+    const { articleId } = router.query;
+
     const [selectedText, setSelectedText] = useState('');
     const [responseExplainText, setResponseExplainText] = useState('');
 
