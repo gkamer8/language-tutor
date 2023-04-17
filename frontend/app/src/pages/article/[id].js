@@ -1,18 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Lora } from 'next/font/google';
 import config from '../../config/backend';
 import MarkdownViewer from '../../components/Markdown/viewer'
-import { Resizable } from 'react-resizable';
-import SplitPane, { Pane } from 'react-split-pane';
+import Link from 'next/link'
 import { useRouter } from 'next/router';
 
-
-const inter = Lora({ subsets: ['latin'] });
 
 export default function Article() {
 
     const router = useRouter();
-    const { articleId } = router.query;
+    const { id } = router.query;
 
     const [selectedText, setSelectedText] = useState('');
     const [responseExplainText, setResponseExplainText] = useState('');
@@ -20,6 +16,7 @@ export default function Article() {
     // 0 = not requested, 1 = loading, 2 = complete, 3 = error
     const [responseExplainStatus, setResponseExplainStatus] = useState(0);
     const [paragraph, setParagraph] = useState('');
+    const [language, setLanguage] = useState('');
 
     const [translationsRemaining, setTranslationsRemaining] = useState(2);
 
@@ -58,9 +55,14 @@ export default function Article() {
         const fetchParagraph = async () => {
             try {
                 setPassageStatus(1);
-                const response = await fetch(config['backendUrl'] + '/files');
+                const url = new URL(config['backendUrl'] + "/files");
+
+                url.searchParams.append('id', id);
+
+                const response = await fetch(url);
                 const data = await response.json();
                 setParagraph(data.file_content);
+                setLanguage(data.language);
                 setPassageStatus(2);
             } catch (error) {
                 setPassageStatus(3);
@@ -68,8 +70,10 @@ export default function Article() {
             }
         };
 
-        fetchParagraph();
-    }, []);
+        if (id){
+            fetchParagraph();
+        }
+    }, [id]);
 
     useEffect(() => {
         const fetchQuestions = async () => {
@@ -79,7 +83,7 @@ export default function Article() {
                 const url = new URL(config['backendUrl'] + "/comprehension");
 
                 url.searchParams.append('sample', paragraph);
-                url.searchParams.append('language', 'french');
+                url.searchParams.append('language', language);
 
                 const response = await fetch(url);
                 const data = await response.json();
@@ -104,7 +108,7 @@ export default function Article() {
                 const url = new URL(config['backendUrl'] + "/vocab");
 
                 url.searchParams.append('sample', paragraph);
-                url.searchParams.append('language', 'french');
+                url.searchParams.append('language', language);
 
                 const response = await fetch(url);
                 const data = await response.json();
@@ -130,7 +134,7 @@ export default function Article() {
         const url = new URL(config['backendUrl'] + "/explain");
 
         url.searchParams.append('sample', selectedText);
-        url.searchParams.append('language', 'french');
+        url.searchParams.append('language', language);
 
         setResponseExplainStatus(1);
 
@@ -151,7 +155,7 @@ export default function Article() {
         const url = new URL(config['backendUrl'] + "/translate");
 
         url.searchParams.append('sample', selectedText);
-        url.searchParams.append('language', 'french');
+        url.searchParams.append('language', language);
 
         setResponseExplainStatus(1);
 
@@ -229,7 +233,14 @@ export default function Article() {
 
     return (
         <div className="flex h-screen">
-            <div className={`flex-1 ${inter.className} p-8 overflow-y-auto`}>
+            <div className={`flex-1 p-8 overflow-y-auto`}>
+                <div>
+                    <Link href="/">
+                        <button type="button" className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded`}>
+                            Back
+                        </button>
+                    </Link>
+                </div>
                 <div id="article" className="w-full">
                     <MarkdownViewer>{paragraph}</MarkdownViewer>
                 </div>
