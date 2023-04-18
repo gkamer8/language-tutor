@@ -10,11 +10,15 @@ export default function Article() {
     const router = useRouter();
     const { id } = router.query;
 
+    const MAX_SELECTION = 1250;  // characters
+    const MIN_SELECTION = 3; // characters
+
     const [selectedText, setSelectedText] = useState('');
     const [responseExplainText, setResponseExplainText] = useState('');
 
     // 0 = not requested, 1 = loading, 2 = complete, 3 = error
     const [responseExplainStatus, setResponseExplainStatus] = useState(0);
+    const [responseExplainError, setResponseExplainError] = useState('');
     const [paragraph, setParagraph] = useState('');
     const [language, setLanguage] = useState('');
 
@@ -38,16 +42,10 @@ export default function Article() {
             setSelectedText(text);
         };
 
-        let article = document.getElementById('article');
-        let questions = document.getElementById('questions');
-
-
-        article.addEventListener('mouseup', handleMouseUp);
-        questions.addEventListener('mouseup', handleMouseUp);
+        window.addEventListener('mouseup', handleMouseUp);
 
         return () => {
-            article.removeEventListener('mouseup', handleMouseUp);
-            questions.removeEventListener('mouseup', handleMouseUp);
+            window.removeEventListener('mouseup', handleMouseUp);
         };
     }, []);
 
@@ -131,29 +129,62 @@ export default function Article() {
     }, [passageStatus]);
 
     const getExplain = async () => {
+
+        if (selectedText.length > MAX_SELECTION){
+            setResponseExplainError("Selected text too large.");
+            setResponseExplainStatus(3);
+            return;
+        }
+        else if (selectedText.length < MIN_SELECTION){
+            setResponseExplainError("Not enough text selected.");
+            setResponseExplainStatus(3);
+            return;
+        }
+
+        if (responseExplainStatus == 1){
+            // Button already clicked and response loading
+            return;
+        }
+
+        setResponseExplainStatus(1);
+
         const url = new URL(config['backendUrl'] + "/explain");
 
         url.searchParams.append('sample', selectedText);
         url.searchParams.append('language', language);
 
-        setResponseExplainStatus(1);
-
         try {
             const response = await fetch(url);
             console.log(response.status)
             const data = await response.json();
-            console.log(data);
             setResponseExplainText(data['text']);
             setResponseExplainStatus(2);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
+            setResponseExplainError("Could not retrieve data from server.");
             setResponseExplainStatus(3);
         }
     };
 
     const getTranslate = async () => {
-        const url = new URL(config['backendUrl'] + "/translate");
 
+        if (selectedText.length > MAX_SELECTION){
+            setResponseExplainError("Selected text too large.");
+            setResponseExplainStatus(3);
+            return;
+        }
+        else if (selectedText.length < MIN_SELECTION){
+            setResponseExplainError("Not enough text selected.");
+            setResponseExplainStatus(3);
+            return;
+        }
+
+        if (responseExplainStatus == 1){
+            // Button already clicked and response loading
+            return;
+        }
+        
+        const url = new URL(config['backendUrl'] + "/translate");
         url.searchParams.append('sample', selectedText);
         url.searchParams.append('language', language);
 
@@ -163,12 +194,12 @@ export default function Article() {
             const response = await fetch(url);
             console.log(response.status)
             const data = await response.json();
-            console.log(data);
             setResponseExplainText(data['text']);
             setResponseExplainStatus(2);
             setTranslationsRemaining(translationsRemaining - 1);
         } catch (error) {
             console.error('There was a problem with the fetch operation:', error);
+            setResponseExplainError("Could not retrieve data from server.");
             setResponseExplainStatus(3);
         }
     };
@@ -194,7 +225,7 @@ export default function Article() {
         responseExplainTextDisplay = "Loading..."
     }
     else if (responseExplainStatus === 3){
-        responseExplainTextDisplay = "Error"
+        responseExplainTextDisplay = "Error: " + responseExplainError;
     }
 
     function questionsMap(questionIndex){
@@ -234,6 +265,11 @@ export default function Article() {
     return (
         <div className="flex h-screen">
             <div className={`flex-1 p-8 overflow-y-auto`}>
+                <style>{`
+                    ::selection {
+                        background-color: #ffff00;
+                    }
+                `}</style>
                 <div>
                     <Link href="/">
                         <button type="button" className={`bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-4 rounded`}>

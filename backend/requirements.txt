@@ -1,2 +1,4 @@
 flask
 openai
+waitress
+flask_cors
