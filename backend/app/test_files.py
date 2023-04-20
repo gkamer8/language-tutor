@@ -108,3 +108,28 @@ Quatre Canadairs et deux Dash ont également été mobilisés, a précisé dans 
 Le feu s'est dans un premier temps déplacé vers Banyuls en suivant la voie ferrée, avant d'être poussé par une forte tramontane et de se diriger vers Cerbère. La commune de Cerbère est devenue l'enjeu majeur, l'incendie se rapprochant des habitations situées au nord du village, indique la préfecture. Un feu «qui ressemble à un feu estival, avec une grande vitesse de propagation et une sécheresse des sols qui a contribué à la situation», a ajouté le préfet. Le travail des pompiers est rendu particulièrement difficile par le vent, qui a fait l'objet d'une alerte de Météo France ce samedi, et surtout par la sécheresse qui a déclenché ces derniers jours dans les Pyrénées-Orientales des restrictions d'eau.
 """
 })
+
+FILES.append({
+'language': 'italian',
+'title': 'Bitonci: «Calo record delle nascite, il welfare non basta. Per aiutare le famiglie serve la leva fiscale»',
+'id': 5,
+'text':"""
+# Bitonci: «Calo record delle nascite, il welfare non basta. Per aiutare le famiglie serve la leva fiscale»
+
+`Il sottosegretario della Lega propone di ridurre la tassazione delle famiglie con un incentivo fiscale per ogni bambino a carico. Le coperture attraverso il riordino dei bonus`
+
+«Secondo me quella del ministro Giorgetti è un’operazione verità che indica il percorso di come si può affrontare il tema del calo delle nascite». A dirlo è Massimo Bitonci, deputato della Lega e sottosegretario al ministero delle Imprese e del Made in Italy, spiegando che la scelta di valutare un drastico taglio delle tasse per chi fa figli darebbe «risultati immediati».
+
+## Come si inverte il calo delle nascite?
+«L’esperienza ci dice che le misure di potenziamento del welfare come, per esempio, la realizzazione degli asili nidi, seppure cruciali, non sempre garantiscono il risultato sperato. In alcune zone i progetti per gli asili nido non sono neanche stati presentati. In questi anni si sono susseguite discussioni e polemiche sul fatto che non ci sono interventi in materia di welfare che aiutano le mamme o le famiglie, come, invece, accade nei Paesi scandinavi. Intervenendo attraverso una leva di carattere fiscale si potrebbe dare una mano da subito alle famiglie e contrastare l’attuale denatalità arrivata ormai a livelli record, con meno di 400 mila nati all’anno».
+
+## Lei propone una detrazione di 10 mila euro all’anno per ogni figlio. Quale soluzione suggerisce?
+«Bisogna affrontare il tema della tassazione delle famiglie con figli a carico. Dal punto di vista fiscale la soluzione potrebbe prevedere una detrazione per ogni figlio, che al momento è accordata sotto forma di deduzione pari a 950 euro a figlio fino a 21 anni di età. L’obiettivo è aumentarla portandola a 10 mila euro all’anno. La cifra è indicativa, anche 5 mila euro potrebbe essere una buona proposta: in caso di tre figli vorrebbe dire 15 mila euro di detrazioni. E sarebbero soldi che rimangono nelle tasche delle famiglie. Si aggiunga che l’assegno unico dovrebbe essere comunque confermato perché sta dando dei buoni risultati».
+
+## C’è un tema di coperture finanziare. Dove si trovano i soldi?
+«Logico che il tema siano le coperture, ma nella legge delega per la riforma del fisco è previsto di mettere mano a sgravi,esenzioni, bonus, deduzioni e detrazioni, in totale sono circa 600 voci. Attraverso un riordino della tax expenditure si potrebbe trovare una buona parte delle coperture per finanziare una misura di contrasto al calo delle nascite. E poi potrebbero essere individuate risorse anche in altro modo».
+
+## A cosa si riferisce?
+«Alla fine dell’anno la crescita del Prodotto interno lordo e l’andamento delle entrate potrebbero rivelarsi migliori delle stime. Dalla nota di aggiornamento del Documento di economie finanza potremmo avere, insomma, qualche sorpresa. Un ulteriore lavoro di riordino può essere fatto sui tanti bonus microsettoriali accordati durante la pandemia, ormai terminata, e l’emergenza energetica, in parte superata. Poi, come sempre, si tratta di fare delle scelte politiche, ma mi pare che la premier Meloni e il ministro Giorgetti abbiano ripetuto che il tema della denatalità è cruciale nell’agenda di governo».
+"""
+})

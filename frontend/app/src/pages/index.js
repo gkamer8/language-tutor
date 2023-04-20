@@ -30,6 +30,8 @@ export default function Examples() {
             return ['from-yellow-300 to-red-600']
           case 'german':
             return ['from-green-400 to-blue-500']
+        case 'italian':
+            return ['from-green-400 to-red-500']
           default:
             return ['from-green-400 to-blue-500']
         }
