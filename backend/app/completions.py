@@ -14,6 +14,21 @@ import random
 
 bp = Blueprint('completions', __name__)
 
+
+
+# Wrapper around gpt-3.5-tubo
+# No batched completions atm
+def get_completion(prompt):
+    openai.api_key = current_app.config['OPENAI_API_KEY']
+    response = openai.ChatCompletion.create(
+        model="gpt-3.5-turbo",
+        messages=[
+            {"role": "user", "content": prompt}
+        ]
+    )
+    return response['choices'][0]['message']['content']
+
+
 @bp.route('/explain', methods=('GET',))
 @cross_origin()
 def explain():
@@ -27,15 +42,7 @@ def explain():
     }
     prompt = EXPLAIN.format(**kwargs)
 
-    openai.api_key = current_app.config['OPENAI_API_KEY']
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": prompt}
-        ]
-    )
-
-    choice = response['choices'][0]['message']['content']
+    choice = get_completion(prompt)
 
     return json.dumps({
         'status': 'success',
@@ -56,15 +63,7 @@ def translate():
     }
     prompt = TRANSLATE.format(**kwargs)
 
-    openai.api_key = current_app.config['OPENAI_API_KEY']
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": prompt}
-        ]
-    )
-
-    choice = response['choices'][0]['message']['content']
+    choice = get_completion(prompt)
 
     return json.dumps({
         'status': 'success',
@@ -91,13 +90,8 @@ def comprehension():
 
     choices = []
 
-    openai.api_key = current_app.config['OPENAI_API_KEY']
     for i in selected_passages:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages = [{'role': 'user', 'content': prompts[i]}]
-        )
-        choices.append(response['choices'][0]['message']['content'])
+        choices.append(get_completion(prompts[i]))
 
     return json.dumps({
         'status': 'success',
@@ -125,13 +119,8 @@ def vocab():
 
     choices = []
 
-    openai.api_key = current_app.config['OPENAI_API_KEY']
     for i in selected_passages:
-        response = openai.ChatCompletion.create(
-            model="gpt-3.5-turbo",
-            messages = [{'role': 'user', 'content': prompts[i]}]
-        )
-        words = response['choices'][0]['message']['content']
+        words = get_completion(prompts[i])
         try:
             vocab_words = words.split(",")
             choices.extend(vocab_words)
