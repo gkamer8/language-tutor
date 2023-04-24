@@ -4,7 +4,7 @@ from flask import (
     request,
     current_app
 )
-from .prompts import COMPREHENSION, EXPLAIN, TRANSLATE, VOCAB
+from .prompts import COMPREHENSION, EXPLAIN, TOTENSE, TRANSLATE, VOCAB
 import openai
 import json
 from flask_cors import cross_origin
@@ -135,4 +135,27 @@ def vocab():
     return json.dumps({
         'status': 'success',
         'vocab': choices
+    })
+
+
+@bp.route('/convert-tense', methods=('GET',))
+@cross_origin()
+def convert_tense():
+    sample = request.args.get('sample')
+    language = request.args.get('language')
+    to_tense = request.args.get('to_tense')
+
+
+    kwargs = {
+        'language': language,
+        'to_tense': to_tense,
+        'text': sample
+    }
+    prompt = TOTENSE.format(**kwargs)
+
+    choice = get_completion(prompt)
+
+    return json.dumps({
+        'status': 'success',
+        'text': choice
     })

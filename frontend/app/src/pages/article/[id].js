@@ -128,21 +128,28 @@ export default function Article() {
         }
     }, [passageStatus]);
 
-    const getExplain = async () => {
 
+    // returns nothing if no error, otherwise returns error string
+    function detectBadInput(){
         if (selectedText.length > MAX_SELECTION){
-            setResponseExplainError("Selected text too large.");
-            setResponseExplainStatus(3);
-            return;
+            return "Selected text too large.";
         }
         else if (selectedText.length < MIN_SELECTION){
-            setResponseExplainError("Not enough text selected.");
-            setResponseExplainStatus(3);
-            return;
+            return "Not enough text selected.";
         }
 
         if (responseExplainStatus == 1){
             // Button already clicked and response loading
+            return "Loading...";
+        }
+    }
+
+    const getExplain = async () => {
+
+        let bad = detectBadInput();
+        if (bad){
+            setResponseExplainError(bad);
+            setResponseExplainStatus(3);
             return;
         }
 
@@ -168,25 +175,46 @@ export default function Article() {
 
     const getTranslate = async () => {
 
-        if (selectedText.length > MAX_SELECTION){
-            setResponseExplainError("Selected text too large.");
+        let bad = detectBadInput();
+        if (bad){
+            setResponseExplainError(bad);
             setResponseExplainStatus(3);
-            return;
-        }
-        else if (selectedText.length < MIN_SELECTION){
-            setResponseExplainError("Not enough text selected.");
-            setResponseExplainStatus(3);
-            return;
-        }
-
-        if (responseExplainStatus == 1){
-            // Button already clicked and response loading
             return;
         }
         
         const url = new URL(config['backendUrl'] + "/translate");
         url.searchParams.append('sample', selectedText);
         url.searchParams.append('language', language);
+
+        setResponseExplainStatus(1);
+
+        try {
+            const response = await fetch(url);
+            console.log(response.status)
+            const data = await response.json();
+            setResponseExplainText(data['text']);
+            setResponseExplainStatus(2);
+            setTranslationsRemaining(translationsRemaining - 1);
+        } catch (error) {
+            console.error('There was a problem with the fetch operation:', error);
+            setResponseExplainError("Could not retrieve data from server.");
+            setResponseExplainStatus(3);
+        }
+    };
+
+    const getPresentTense = async () => {
+
+        let bad = detectBadInput();
+        if (bad){
+            setResponseExplainError(bad);
+            setResponseExplainStatus(3);
+            return;
+        }
+        
+        const url = new URL(config['backendUrl'] + "/convert-tense");
+        url.searchParams.append('sample', selectedText);
+        url.searchParams.append('language', language);
+        url.searchParams.append('to_tense', 'present');
 
         setResponseExplainStatus(1);
 
@@ -291,6 +319,10 @@ export default function Article() {
                     </p>
                     <button onClick={getExplain} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                         Make Simpler
+                    </button>
+                    <br/><br/>
+                    <button onClick={getPresentTense} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                        Make Present Tense
                     </button>
                     {translateButton}
                     <p>
