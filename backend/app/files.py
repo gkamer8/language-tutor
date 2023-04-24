@@ -5,21 +5,18 @@ from flask import (
     current_app,
     jsonify
 )
-from .prompts import EXPLAIN
-import openai
-import json
 from flask_cors import cross_origin
-from .test_files import FILES
+from .test_files import get_files
 
 
 bp = Blueprint('files', __name__)
 
 
 def get_test_file(id):
-    return FILES[id]
+    return get_files()[id]
 
 def get_test_file_manifest():
-    return [{'title': x['title'], 'language': x['language'], 'id': x['id']} for x in FILES]
+    return [{'title': x['title'], 'language': x['language'], 'id': x['id']} for x in get_files()]
 
 
 @bp.route('/files', methods=('GET',))

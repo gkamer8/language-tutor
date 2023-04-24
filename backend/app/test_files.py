@@ -1,11 +1,15 @@
+import os
+from flask import url_for, current_app
 
-FILES = []
+def get_files():
 
-FILES.append({
-'language': 'french',
-'title': 'Au Soudan, la rivalité entre deux généraux a explosé, des forces paramilitaires disent contrôler l’aéroport international de Khartoum',
-'id': 0,
-'text':"""
+    FILES = []
+
+    FILES.append({
+    'language': 'french',
+    'title': 'Au Soudan, la rivalité entre deux généraux a explosé, des forces paramilitaires disent contrôler l’aéroport international de Khartoum',
+    'id': 0,
+    'text':"""
 # Au Soudan, la rivalité entre deux généraux a explosé, des forces paramilitaires disent contrôler l’aéroport international de Khartoum
 
 Les soldats du général Daglo affirment avoir aussi pris le contrôle du palais présidentiel. L’armée accuse les paramilitaires d’avoir attaqué des bases dans tout le pays.
@@ -35,13 +39,13 @@ Car depuis des jours, alors que civils et communauté internationale étaient fo
 Si l’armée ne la refuse pas, elle veut malgré tout imposer ses conditions d’admission et limiter dans le temps l’incorporation de celles-ci. Le général Daglo, lui, réclame une inclusion large et, surtout, sa place au sein de l’état-major. C’est ce différend qui bloque toujours le retour à la transition exigée par la communauté internationale pour reprendre son aide au Soudan, l’un des pays les plus pauvres au monde.
 
 """
-})
+    })
 
-FILES.append({
-'language': 'french',
-'title': 'Ukraine : certaines unités des forces spéciales russes auraient perdu jusqu\'à 90% de leurs soldats d\'élite',
-'id': 1,
-'text':"""
+    FILES.append({
+    'language': 'french',
+    'title': 'Ukraine : certaines unités des forces spéciales russes auraient perdu jusqu\'à 90% de leurs soldats d\'élite',
+    'id': 1,
+    'text':"""
 # Ukraine : certaines unités des forces spéciales russes auraient perdu jusqu'à 90% de leurs soldats d'élite
 
 Les documents confidentiels américains, publiés sur les réseaux sociaux, dévoilent la faiblesse russe. Les Spetsnaz, forces spéciales russes, ont durement souffert en Ukraine, révèle le Washington Post . Le commandement russe, agacé du manque d'avancée de ses troupes, a décidé, dès le début de «l'opération militaire spéciale», d'envoyer les forces spéciales ... effectuer des missions classiques.
@@ -55,13 +59,13 @@ Ces pertes, colossales, pourraient également affecter durablement les forces sp
 Le FBI a arrêté ce jeudi un aviateur, âgé de 21 ans, de la Garde nationale du Massachusetts soupçonné d'être à l'origine des fuites. Il est accusé d'avoir soustrait ou diffusé des informations classifiées relatives à la défense nationale, crime passible de lourdes peines de prison au titre de la loi sur l'espionnage. Il pourrait également être poursuivi devant un tribunal militaire.
 
 """
-})
+    })
 
-FILES.append({
-'language': 'german',
-'title': 'Corona-Impfstoffe retteten laut WHO in Europa über eine Million Leben',
-'id': 2,
-'text':"""
+    FILES.append({
+    'language': 'german',
+    'title': 'Corona-Impfstoffe retteten laut WHO in Europa über eine Million Leben',
+    'id': 2,
+    'text':"""
 # Corona-Impfstoffe retteten laut WHO in Europa über eine Million Leben
 
 
@@ -73,13 +77,13 @@ Besonders viele Todesfälle konnten während der Omikron-Welle verhindert werden
 
 Die Region Europa der Weltgesundheitsorganisation umfasst 53 Länder, dazu gehören neben den Mitgliedstaaten der Europäischen Union und des Europäischen Wirtschaftsraums auch Russland und mehrere Länder des Kaukasus und Zentralasiens.
 """
-})
+    })
 
-FILES.append({
-'language': 'spanish',
-'title': 'Cuenta atrás para el despegue de la nave Starship de SpaceX, con la que Elon Musk aspira a llevar a la humanidad hasta Marte',
-'id': 3,
-'text':"""
+    FILES.append({
+    'language': 'spanish',
+    'title': 'Cuenta atrás para el despegue de la nave Starship de SpaceX, con la que Elon Musk aspira a llevar a la humanidad hasta Marte',
+    'id': 3,
+    'text':"""
 # Cuenta atrás para el despegue de la nave Starship de SpaceX, con la que Elon Musk aspira a llevar a la humanidad hasta Marte
 
 La compañía espacial SpaceX, del multimillonario Elon Musk, tiene previsto lanzar este lunes (en un vuelo de prueba que el propio Musk admitió horas antes que podría retrasarse porque "van a ser muy cuidadosos") su gigantesca nave Starship, el cohete más grande y poderoso jamás construido, con el ambicioso objetivo de que algún día no muy lejano transporte a personas a la Luna y Marte.
@@ -88,13 +92,13 @@ Irguiéndose casi 400 pies (120 metros) en el cielo del sur de Texas, Starship d
 
 Será el primer lanzamiento con las dos secciones de Starship. Las primeras versiones de la sección superior fueron lanzadas a la estratosfera hace algunos años, estrellándose varias veces a su regreso a la Tierra antes de lograr un aterrizaje vertical exitoso en 2021. El imponente cohete propulsor, denominado Super Heavy, será probado por primera vez en vuelo en esta ocasión. SpaceX no no intentará hacer aterrizar la nave: ambas partes caerán al mar.
 """
-})
+    })
 
-FILES.append({
-'language': 'french',
-'title': 'Pyrénées-Orientales : un violent incendie a ravagé plus de 900 hectares, 500 pompiers mobilisés',
-'id': 4,
-'text':"""
+    FILES.append({
+    'language': 'french',
+    'title': 'Pyrénées-Orientales : un violent incendie a ravagé plus de 900 hectares, 500 pompiers mobilisés',
+    'id': 4,
+    'text':"""
 # Pyrénées-Orientales : un violent incendie a ravagé plus de 900 hectares, 500 pompiers mobilisés
 
 L'incendie, déclaré ce dimanche à 9h30 à Cerbère et Banyuls-sur-Mer (Pyrénées-Orientales), a parcouru 930 hectares, a indiqué Gérald Darmanin. Le ministre de l'Intérieur annonce s'y rendre ce lundi. 460 pompiers sont mobilisés, et des renforts continuent d'arriver pour porter les effectifs à 500, dont des moyens venus de l'Hérault et de l'Aude. De plus, 40 gendarmes sont mobilisés. «Il faut s'attendre à ce que la résorption complète de l'incendie nécessite plusieurs jours», prévient la préfecture.
@@ -107,13 +111,13 @@ Quatre Canadairs et deux Dash ont également été mobilisés, a précisé dans 
 
 Le feu s'est dans un premier temps déplacé vers Banyuls en suivant la voie ferrée, avant d'être poussé par une forte tramontane et de se diriger vers Cerbère. La commune de Cerbère est devenue l'enjeu majeur, l'incendie se rapprochant des habitations situées au nord du village, indique la préfecture. Un feu «qui ressemble à un feu estival, avec une grande vitesse de propagation et une sécheresse des sols qui a contribué à la situation», a ajouté le préfet. Le travail des pompiers est rendu particulièrement difficile par le vent, qui a fait l'objet d'une alerte de Météo France ce samedi, et surtout par la sécheresse qui a déclenché ces derniers jours dans les Pyrénées-Orientales des restrictions d'eau.
 """
-})
+    })
 
-FILES.append({
-'language': 'italian',
-'title': 'Bitonci: «Calo record delle nascite, il welfare non basta. Per aiutare le famiglie serve la leva fiscale»',
-'id': 5,
-'text':"""
+    FILES.append({
+    'language': 'italian',
+    'title': 'Bitonci: «Calo record delle nascite, il welfare non basta. Per aiutare le famiglie serve la leva fiscale»',
+    'id': 5,
+    'text':"""
 # Bitonci: «Calo record delle nascite, il welfare non basta. Per aiutare le famiglie serve la leva fiscale»
 
 `Il sottosegretario della Lega propone di ridurre la tassazione delle famiglie con un incentivo fiscale per ogni bambino a carico. Le coperture attraverso il riordino dei bonus`
@@ -132,4 +136,16 @@ FILES.append({
 ## A cosa si riferisce?
 «Alla fine dell’anno la crescita del Prodotto interno lordo e l’andamento delle entrate potrebbero rivelarsi migliori delle stime. Dalla nota di aggiornamento del Documento di economie finanza potremmo avere, insomma, qualche sorpresa. Un ulteriore lavoro di riordino può essere fatto sui tanti bonus microsettoriali accordati durante la pandemia, ormai terminata, e l’emergenza energetica, in parte superata. Poi, come sempre, si tratta di fare delle scelte politiche, ma mi pare che la premier Meloni e il ministro Giorgetti abbiano ripetuto che il tema della denatalità è cruciale nell’agenda di governo».
 """
-})
+    })
+
+    with open(os.path.join(current_app.root_path, 'static', 'le_petit_prince.md')) as fhand:
+        txt = fhand.read()
+
+    FILES.append({
+        'language': 'french',
+        'title': 'Le Petit Prince',
+        'id': 6,
+        'text': txt
+    })
+
+    return FILES
