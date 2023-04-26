@@ -16,7 +16,7 @@ Faithfully translate the text into English.
 COMPREHENSION = """
 The following is a piece of an article written in {language}. Based on the passage, create a reading comprehension question for a non-native speaker. The question must be written in {language}.
 
-Your response should only include the question text and no other information.
+Your response should only include the question text and no other information. Do not include the answer.
 
 {text}
 """

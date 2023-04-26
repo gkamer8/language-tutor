@@ -18,15 +18,38 @@ bp = Blueprint('completions', __name__)
 
 # Wrapper around gpt-3.5-tubo
 # No batched completions atm
-def get_completion(prompt):
-    openai.api_key = current_app.config['OPENAI_API_KEY']
-    response = openai.ChatCompletion.create(
-        model="gpt-3.5-turbo",
-        messages=[
-            {"role": "user", "content": prompt}
-        ]
-    )
-    return response['choices'][0]['message']['content']
+# prompt can be a list or just the prompt
+# tradeoff = "fast" | "best"
+def get_completion(prompt, tradeoff='fast'):
+
+    assert(tradeoff == 'fast' or tradeoff == 'best')
+
+    # prompt can be iterable or not iterable
+    prompts = []
+    batched = False
+    if isinstance(prompt, list):
+        prompts += prompt
+        batched = True
+    else:
+        prompts = [prompt]
+
+    results = []
+    # No batched completions yet - just do one at a time
+    # No distinction in tradeoff yet (should also account for testing)
+    for txt in prompts:
+        openai.api_key = current_app.config['OPENAI_API_KEY']
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "user", "content": txt}
+            ]
+        )
+        results.append(response['choices'][0]['message']['content'])
+    
+    if batched:
+        return results
+    else:
+        return results[0]
 
 
 @bp.route('/explain', methods=('GET',))
@@ -42,7 +65,7 @@ def explain():
     }
     prompt = EXPLAIN.format(**kwargs)
 
-    choice = get_completion(prompt)
+    choice = get_completion(prompt, tradeoff='best')
 
     return json.dumps({
         'status': 'success',
@@ -63,7 +86,7 @@ def translate():
     }
     prompt = TRANSLATE.format(**kwargs)
 
-    choice = get_completion(prompt)
+    choice = get_completion(prompt, tradeoff='fast')
 
     return json.dumps({
         'status': 'success',
@@ -88,10 +111,9 @@ def comprehension():
     MAX_QUESTIONS = min([3, len(prompts)])
     selected_passages = random.sample(range(len(prompts)), MAX_QUESTIONS)
 
-    choices = []
+    selected_prompts = [prompts[i] for i in selected_passages]
 
-    for i in selected_passages:
-        choices.append(get_completion(prompts[i]))
+    choices = get_completion(selected_prompts, "fast")
 
     return json.dumps({
         'status': 'success',
@@ -116,25 +138,25 @@ def vocab():
 
     MAX_QUESTIONS = min([3, len(prompts)])
     selected_passages = random.sample(range(len(prompts)), MAX_QUESTIONS)
+    selected_prompts = [prompts[i] for i in selected_passages]
 
-    choices = []
+    choices = get_completion(selected_prompts, tradeoff="fast")
+    all_vocab_words = []
 
-    for i in selected_passages:
-        words = get_completion(prompts[i])
+    for words in choices:
         try:
             vocab_words = words.split(",")
-            choices.extend(vocab_words)
+            all_vocab_words.extend(vocab_words)
         except:
             return json.dumps({
                 'status': 'failure',
                 'reason': 'AI model error'
             })
 
-    vocab_words = list(set(vocab_words))  # avoid duplicates
-
+    all_vocab_words = list(set(all_vocab_words))  # avoid duplicates
     return json.dumps({
         'status': 'success',
-        'vocab': choices
+        'vocab': all_vocab_words
     })
 
 
@@ -153,7 +175,7 @@ def convert_tense():
     }
     prompt = TOTENSE.format(**kwargs)
 
-    choice = get_completion(prompt)
+    choice = get_completion(prompt, tradeoff='fast')
 
     return json.dumps({
         'status': 'success',
